@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List with Array Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .todo-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 350px;
+            text-align: center;
+        }
+
+        .todo-container h1 {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #e53935;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="todo-container">
+        <h1>To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter a new task" />
+        <button onclick="addTask()">Add Task</button>
+
+        <ul id="todoList"></ul>
+    </div>
+
+    <script>
+        // Array to store tasks
+        let tasks = [];
+
+        // Function to add a task
+        function addTask() {
+            const input = document.getElementById("taskInput");
+            const taskText = input.value.trim();
+
+            if (taskText !== "") {
+                // Add the task to the array
+                tasks.push(taskText);
+
+                // Update the UI
+                renderTasks();
+
+                // Clear the input field after adding the task
+                input.value = "";
+            }
+        }
+
+        // Function to render tasks
+        function renderTasks() {
+            const ul = document.getElementById("todoList");
+            ul.innerHTML = ""; // Clear the existing list
+
+            // Loop through the tasks array and create list items
+            tasks.forEach((task, index) => {
+                const li = document.createElement("li");
+                const taskItem = document.createElement("div");
+                taskItem.classList.add("task-item");
+
+                // Create the task text element
+                const textNode = document.createTextNode(task);
+                taskItem.appendChild(textNode);
+
+                // Create delete button
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Delete";
+                deleteBtn.classList.add("delete-btn");
+                deleteBtn.onclick = function () {
+                    // Remove task from array using pop (reverse of push)
+                    tasks.splice(index, 1);
+                    renderTasks(); // Re-render the list after deletion
+                };
+
+                // Add event to toggle completion status
+                taskItem.onclick = function () {
+                    taskItem.classList.toggle("completed");
+                };
+
+                // Append the task and delete button to the list item
+                li.appendChild(taskItem);
+                li.appendChild(deleteBtn);
+
+                // Add the list item to the ul
+                ul.appendChild(li);
+            });
+        }
+    </script>
+
+</body>
+</html>
+s
